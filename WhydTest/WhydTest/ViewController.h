@@ -1,0 +1,39 @@
+//
+//  ViewController.h
+//  WhydTest
+//
+//  Created by Adrien Guffens on 9/11/13.
+//  Copyright (c) 2013 WeMoodz. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+
+@interface ViewController : UIViewController <AVAudioPlayerDelegate>
+
+//Musci List
+
+@property (nonatomic, strong)NSMutableArray *tracksList;
+
+
+//INFO: UI
+//-------------
+
+//INFO: Player informations
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+
+
+//INFO: Controls
+@property (strong, nonatomic) IBOutlet UIButton *prevButton;
+@property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
+@property (strong, nonatomic) IBOutlet UIButton *nextButton;
+
+@property (strong, nonatomic) IBOutlet UISlider *mainSlider;
+//INFO: handler
+- (IBAction)prevHandler:(id)sender;
+- (IBAction)playPauseHandler:(id)sender;
+- (IBAction)nextHandler:(id)sender;
+
+- (IBAction)valueSliderChangedHandler:(id)sender;
+
+@end
