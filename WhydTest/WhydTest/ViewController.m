@@ -12,6 +12,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 //#import <SCRequest.h>
+#import "PlayerView.h"
 
 static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 
@@ -43,7 +44,7 @@ static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 	Track *track2 = [[Track alloc] init];
 	track2.name = @"Forever Dolphin Love";
 	track2.duration = 100.0;
-	track2.url = @"";
+	track2.url = @"http://www.youtube.com/embed/OSAsuy_UwO8";
 	track2.type = youtube;
 	
 	Track *track3 = [[Track alloc] init];
@@ -75,7 +76,7 @@ static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 - (void)updateViewForTheCurrentTrack {
 	//INFO: getting the track
 	self.currentTrack = [self.tracksList objectAtIndex:self.position];
-
+    
 	//INFO: setting up informations ---> do it on the main thread
 	{
 		self.nameLabel.text = self.currentTrack.name;
@@ -87,21 +88,74 @@ static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 }
 
 - (void) playCurrentTrack {
+    
+    switch (self.currentTrack.type) {
+        case soundclound:
+        {
+            NSString *urlString = [NSString stringWithFormat:@"%@?client_id=%@", self.currentTrack.url, soundcloundClientId];
+            
+            break;
+        }
+            
+        case youtube:
+        {
+            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.playerView.frame.size.width, self.playerView.frame.size.height)];
+            webView.delegate = self;
+            //TODO: do a custom UIWebView class
+            
+            [self.playerView addSubview:webView];
+            
+            
+            [self embedYouTubeInWebView:self.currentTrack.url theWebView:webView];
+
+            
+            
+            
+            break;
+        }
+        case other:
+        {
+            break;
+        }
+            
+        default:
+            break;
+    }
 	
-	//INFO: if SC
-	NSString *urlString = [NSString stringWithFormat:@"%@?client_id=%@", self.currentTrack.url, soundcloundClientId];
-	
-	
+    
 	/*
-	[SCRequest performMethod: SCRequestMethodGET
-				  onResource: [NSURL URLWithString:urlString]
-			 usingParameters: nil
-				 withAccount: nil
-	  sendingProgressHandler: nil
-			 responseHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-				 //
-			 }];
+     
 	 */
+}
+
+#pragma mark - UIWebView
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+}
+
+- (void)embedYouTubeInWebView:(NSString*)url theWebView:(UIWebView *)aWebView {
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [aWebView description]);
+    NSString *embedHTML = @"\
+    <html><head>\
+    <style type=\"text/css\">\
+    body {\
+    background-color: transparent;\
+    color: white;\
+    }\
+    </style>\
+    </head><body style=\"margin:0\">\
+    <embed id=\"yt\" src=\"%@\" type=\"application/x-shockwave-flash\" \
+    width=\"%0.0f\" height=\"%0.0f\"></embed>\
+    </body></html>";
+    
+    NSString* html = [NSString stringWithFormat:embedHTML, url, aWebView.frame.size.width, aWebView.frame.size.height];
+    
+    [aWebView loadHTMLString:html baseURL:nil];
 }
 
 #pragma mark - Handlers
@@ -117,7 +171,7 @@ static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 		self.isPlaying = YES;
 		
 		[self updateViewForTheCurrentTrack];
-
+        
 	}
 	else {
 		//TODO: pause
@@ -129,7 +183,7 @@ static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 - (IBAction)nextHandler:(id)sender {
 	//INFO: setting next sound to play
 	self.position = (self.position + 1) >= [self.tracksList count] ? 0 : self.position + 1;
-
+    
 	[self updateViewForTheCurrentTrack];
 }
 

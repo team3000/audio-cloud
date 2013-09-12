@@ -94,6 +94,7 @@
                         <outlet property="nameLabel" destination="oae-XY-4md" id="E2O-W6-QHU"/>
                         <outlet property="nextButton" destination="W3g-DB-pDD" id="f9z-mb-nU3"/>
                         <outlet property="playPauseButton" destination="va8-w7-rEY" id="9ZX-OY-jw2"/>
+                        <outlet property="playerView" destination="qY0-GD-y1c" id="Fcd-yf-383"/>
                         <outlet property="prevButton" destination="yi4-pK-AKP" id="gYS-QZ-rfs"/>
                     </connections>
                 </viewController>
@@ -101,31 +102,6 @@
             </objects>
         </scene>
     </scenes>
-    <classes>
-        <class className="ControlView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ControlView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="mainButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="PlayerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlayerView.h"/>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="nextHandler:"/>
-                <relationship kind="action" name="playPauseHandler:"/>
-                <relationship kind="action" name="prevHandler:"/>
-                <relationship kind="action" name="valueSliderChangedHandler:"/>
-                <relationship kind="outlet" name="mainSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="nextButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="playPauseButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="prevButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

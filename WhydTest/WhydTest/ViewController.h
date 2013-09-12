@@ -9,19 +9,22 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface ViewController : UIViewController <AVAudioPlayerDelegate>
+@class PlayerView;
 
-//Musci List
+@interface ViewController : UIViewController <AVAudioPlayerDelegate, UIWebViewDelegate>
 
+//INFO: Music List
 @property (nonatomic, strong)NSMutableArray *tracksList;
 
+//-------------
 
 //INFO: UI
-//-------------
+@property (weak, nonatomic) IBOutlet PlayerView *playerView;
 
 //INFO: Player informations
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 
+//-------------
 
 //INFO: Controls
 @property (strong, nonatomic) IBOutlet UIButton *prevButton;
@@ -29,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 
 @property (strong, nonatomic) IBOutlet UISlider *mainSlider;
+
 //INFO: handler
 - (IBAction)prevHandler:(id)sender;
 - (IBAction)playPauseHandler:(id)sender;
