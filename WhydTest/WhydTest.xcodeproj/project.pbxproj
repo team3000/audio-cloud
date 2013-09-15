@@ -201,6 +201,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = WeMoodz;
+				TargetAttributes = {
+					908B489617E0AE5300607581 = {
+						DevelopmentTeam = GPRDQTBPV3;
+					};
+				};
 			};
 			buildConfigurationList = 908B489217E0AE5300607581 /* Build configuration list for PBXProject "WhydTest" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -340,6 +345,8 @@
 		908B48BE17E0AE5300607581 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WhydTest/WhydTest-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$PROJECT_DIR/**";
@@ -349,6 +356,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -356,6 +364,8 @@
 		908B48BF17E0AE5300607581 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WhydTest/WhydTest-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$PROJECT_DIR/**";
@@ -365,6 +375,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
