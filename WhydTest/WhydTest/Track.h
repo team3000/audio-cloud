@@ -22,5 +22,6 @@ enum track_type {
 @property (nonatomic, strong)NSString *url;
 @property (nonatomic, assign)int type;//INFO: bad type but will work
 @property (nonatomic, assign)int position;
+@property (nonatomic, strong)UIImage *image;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+//#import "AudioPlayerView.h"
 
 @class PlayerView;
 
@@ -31,7 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 
-@property (strong, nonatomic) IBOutlet UISlider *mainSlider;
+@property (strong, nonatomic) IBOutlet UISlider *durationSlider;
 
 //INFO: handler
 - (IBAction)prevHandler:(id)sender;
@@ -39,5 +40,8 @@
 - (IBAction)nextHandler:(id)sender;
 
 - (IBAction)valueSliderChangedHandler:(id)sender;
+
+- (IBAction)touchDragInsideSliderHandler:(id)sender;
+- (IBAction)touchUpInsideSliderHandler:(id)sender;
 
 @end
