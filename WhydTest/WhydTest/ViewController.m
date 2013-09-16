@@ -19,7 +19,7 @@
 //INFO: MPMoviePlayerController - for video
 #import <MediaPlayer/MediaPlayer.h>
 
-static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
+static NSString *soundcloundClientId = @"XX";
 static BOOL debug = NO;
 
 //INFO: MAIN VIEW CONTROLLER
@@ -58,7 +58,7 @@ static BOOL debug = NO;
 	[audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
 	[audioSession setActive:YES error:nil];
 	
-	//
+	//INFO: setup main track list
 	
 	self.tracksList = [[NSMutableArray alloc] init];
 	
@@ -285,7 +285,6 @@ static BOOL debug = NO;
 			{
 				NSURL *movieURL = [NSURL URLWithString:self.currentTrack.url];
 				AVPlayer *avPlayer = [AVPlayer playerWithURL:movieURL];
-				//					avPlayer prerollAtRate:<#(float)#> completionHandler:<#^(BOOL finished)completionHandler#>
 				
 				AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:avPlayer];
 				avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
@@ -318,7 +317,8 @@ static BOOL debug = NO;
 			self.durationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(syncScrubber) userInfo:nil repeats:YES];
         }
 		else if (self.audioPlayer.status == AVPlayerStatusFailed) {
-			NSLog(@"%s - ERROR", __PRETTY_FUNCTION__);
+			if (debug == YES)
+				NSLog(@"%s - ERROR", __PRETTY_FUNCTION__);
 		}
     }
 }
@@ -346,11 +346,13 @@ static BOOL debug = NO;
 #pragma mark - UIWebView delegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+	if (debug == YES)
+		NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+	if (debug == YES)
+		NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
 }
 
 - (void)embedYouTubeInWebView:(NSString*)url theWebView:(UIWebView *)aWebView {
@@ -371,7 +373,8 @@ static BOOL debug = NO;
 	
 	NSString* html = [NSString stringWithFormat:embedHTML, url, aWebView.frame.size.width, aWebView.frame.size.height];
 	
-	NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+	if (debug == YES)
+		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
 	
 	[aWebView loadHTMLString:html baseURL:nil];
 }
@@ -383,7 +386,8 @@ static BOOL debug = NO;
 
 	//INFO: setting prev sound to play
 	self.position = ((self.position - 1) < 0) ? ([self.tracksList count] - 1) : self.position - 1;
-	NSLog(@"%s | self.position: %d", __PRETTY_FUNCTION__, self.position);
+	if (debug == YES)
+		NSLog(@"%s | self.position: %d", __PRETTY_FUNCTION__, self.position);
 	
 	[self updateViewForTheCurrentTrack];
 	
@@ -415,7 +419,8 @@ static BOOL debug = NO;
 	
 	//INFO: setting next sound to play
 	self.position = (self.position + 1) >= [self.tracksList count] ? 0 : self.position + 1;
-	NSLog(@"%s | self.position: %d", __PRETTY_FUNCTION__, self.position);
+	if (debug == YES)
+		NSLog(@"%s | self.position: %d", __PRETTY_FUNCTION__, self.position);
 	
 	[self updateViewForTheCurrentTrack];
 	
@@ -436,7 +441,6 @@ static BOOL debug = NO;
 	
 	if (self.currentTrack.type == soundclound) {
 		[self.audioPlayer pause];
-//		[self.audioPlayer cancelPendingPrerolls];
 	}
 	else if (self.currentTrack.type == youtube) {
 		[self.webView removeFromSuperview];
@@ -449,8 +453,8 @@ static BOOL debug = NO;
 }
 
 - (IBAction)touchDragInsideSliderHandler:(id)sender {
-	NSLog(@"OLA");
-	NSLog(@"%s - durationSlider: %f", __PRETTY_FUNCTION__, self.durationSlider.value);
+	if (debug == YES)
+		NSLog(@"%s - durationSlider: %f", __PRETTY_FUNCTION__, self.durationSlider.value);
 	[self.durationTimer invalidate];
 }
 
