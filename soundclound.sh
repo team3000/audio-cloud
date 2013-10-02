@@ -19,6 +19,6 @@ printf "\n\nPlease enter the stream_url without the client_id:\n";
 read stream_url
 printf "\nYou entered: $stream_url"
 
-printf "\nTo play a sound use the url -> ";
+printf "\nTo play a sound use this url -> ";
 echo $stream_url?client_id=$2;
 #!echo http://api.soundcloud.com/tracks/91121058/stream?client_id=$2;

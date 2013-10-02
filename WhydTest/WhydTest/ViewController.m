@@ -19,7 +19,7 @@
 //INFO: MPMoviePlayerController - for video
 #import <MediaPlayer/MediaPlayer.h>
 
-static NSString *soundcloundClientId = @"XX";
+static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 static BOOL debug = NO;
 
 //INFO: MAIN VIEW CONTROLLER
@@ -72,7 +72,8 @@ static BOOL debug = NO;
 	Track *track2 = [[Track alloc] init];
 	track2.name = @"Agoria 50 min Boiler Room Mix at ADE 2012";
 	track2.duration = 100.0;
-	track2.url = @"http://www.youtube.com/embed/l5Qem9SAQZY";
+	track2.url = @"http://www.youtube.com/embed/l5Qem9SAQZY";//http://www.youtube.com/embed/
+//	track2.url = @"l5Qem9SAQZY";//http://www.youtube.com/embed/
 	track2.image = [UIImage imageNamed:@"boiler.jpg	"];
 	track2.type = youtube;
 	
@@ -87,6 +88,7 @@ static BOOL debug = NO;
 	track4.name = @"Julian Jeweil - Don't Think (Original Mix)";
 	track4.duration = 100.0;
 	track4.url = @"http://www.youtube.com/embed/O-B46mrOtCM";
+//	track4.url = @"O-B46mrOtCM";
 	track4.image = [UIImage imageNamed:@"julian.jpg"];
 	track4.type = youtube;
 	
@@ -346,8 +348,29 @@ static BOOL debug = NO;
 #pragma mark - UIWebView delegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-	if (debug == YES)
-		NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+	//	if (debug == YES)
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+	
+	
+	/*
+	 // add function to page:
+	 NSString * js = @"function onYouTubePlayerReady(playerId) { \
+	 ytplayer = document.getElementById('myytplayer'); \
+	 }}" ;
+	 
+	 [webView stringByEvaluatingJavaScriptFromString:js];
+	 
+	 js = @"function play() { \
+	 if (ytplayer) { \
+	 ytplayer.playVideo(); \
+	 }}";
+	 [webView stringByEvaluatingJavaScriptFromString:js];
+	 // execute newly added function:
+	 NSString * result = [ webView stringByEvaluatingJavaScriptFromString:@"play();"] ;
+	 NSLog(@"result=\"%@\"", result) ;
+	 */
+	NSString * result = [ webView stringByEvaluatingJavaScriptFromString:@"player.playVideo();"] ;
+    NSLog(@"result=\"%@\"", result) ;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -357,33 +380,96 @@ static BOOL debug = NO;
 
 - (void)embedYouTubeInWebView:(NSString*)url theWebView:(UIWebView *)aWebView {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, [aWebView description]);
-	
-	NSString *embedHTML  = [NSString stringWithFormat:@"\
-							<html>\
-							<head>\
-							<style type=\"text/css\">\
-							iframe {}\
-							body {background-color:#000; margin:0;}\
-							</style>\
-							</head>\
-							<body>\
-							<iframe width=\"%0.0f\" height=\"%0.0f\" src=\"%@\" frameborder=\"0\"></iframe>\
-							</body>\
-							</html>", aWebView.frame.size.width, aWebView.frame.size.height, url];
-	
-	NSString* html = [NSString stringWithFormat:embedHTML, url, aWebView.frame.size.width, aWebView.frame.size.height];
-	
-	if (debug == YES)
+	/*
+	 NSString *embedHTML  = [NSString stringWithFormat:@"\
+	 <html>\
+	 <head>\
+	 <style type=\"text/css\">\
+	 o {}\
+	 body {background-color:#000; margin:0;}\
+	 </style>\
+	 </head>\
+	 <body>\
+	 <iframe width=\"%0.0f\" height=\"%0.0f\" src=\"%@\" frameborder=\"0\"></iframe>\
+	 </body>\
+	 </html>", aWebView.frame.size.width, aWebView.frame.size.height, url];
+	 
+	 NSString* html = [NSString stringWithFormat:embedHTML, url, aWebView.frame.size.width, aWebView.frame.size.height];
+	 
+	 if (debug == YES)
+	 NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+	 
+	 [aWebView loadHTMLString:html baseURL:nil];
+	 */
+	aWebView.allowsInlineMediaPlayback = YES;
+	if (YES)
+	{//INFO: with iframe
+		NSString *htmlString = @"<html><head> \
+		<meta name = \"viewport\" content = \"initial-scale = 1.0, user-scalable = no, width = \"%0.0f\" /></head> \
+		<body> \
+		<iframe webkit-playsinline width=\"%0.0f\" height=\"%0.0f\" src=\"\%@?version=3&playsinline=1&autoplay=1&controls=0&enablejsapi=1\" frameborder=\"0\"></iframe> \
+		</body></html>";//enablejsapi=1&playerapiid=ytplayer
+		
+		
+		NSString* html = [NSString stringWithFormat:htmlString, aWebView.bounds.size.width, aWebView.bounds.size.width, aWebView.bounds.size.height, self.currentTrack.url];
 		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+		
+		aWebView.mediaPlaybackRequiresUserAction = NO;
+		[aWebView loadHTMLString:html baseURL:nil]; //baseURL:[NSURL URLWithString:self.currentTrack.url]];
+		if (NO) {
+			NSString *tmpDir = NSTemporaryDirectory();
+			NSString *tmpFile = [tmpDir
+								 stringByAppendingPathComponent: @"video.html"];
+			[html writeToFile: tmpFile atomically:TRUE
+					 encoding: NSUTF8StringEncoding error:NULL];
+			[aWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:tmpFile isDirectory:NO]]];
+		}
+	}
+	//
 	
-	[aWebView loadHTMLString:html baseURL:nil];
+	if (NO)
+	{//INFO: test with a file
+		NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"youtube" ofType:@"html"];
+		NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+		
+		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.height, aWebView.frame.size.width, self.currentTrack.url, self.currentTrack.url];
+		
+		
+		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+		[aWebView loadHTMLString:html baseURL:nil];
+		
+		
+		/*
+		NSData *htmlData = [NSData dataWithContentsOfFile:html];
+		
+		
+		[aWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
+		 */
+	}
+	
+	if (NO)
+	{//INFO: test with a file
+		NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"yt3" ofType:@"html"];
+		NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+		
+		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.width, aWebView.frame.size.height, aWebView.frame.size.width, aWebView.frame.size.height, self.currentTrack.url];
+		
+		
+		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+		[aWebView loadHTMLString:html baseURL:nil];
+		
+	}
+	
+	
+	
+	
 }
 
 #pragma mark - Handlers
 
 - (IBAction)prevHandler:(id)sender {
 	[self stop];
-
+	
 	//INFO: setting prev sound to play
 	self.position = ((self.position - 1) < 0) ? ([self.tracksList count] - 1) : self.position - 1;
 	if (debug == YES)
@@ -445,7 +531,7 @@ static BOOL debug = NO;
 	else if (self.currentTrack.type == youtube) {
 		[self.webView removeFromSuperview];
 	}
-
+	
 }
 
 - (IBAction)valueSliderChangedHandler:(id)sender {

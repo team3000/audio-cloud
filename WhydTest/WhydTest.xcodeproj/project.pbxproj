@@ -17,6 +17,8 @@
 		90096E6D17E6369B006C78DF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90096E6C17E6369B006C78DF /* SystemConfiguration.framework */; };
 		90096E6F17E636BB006C78DF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90096E6E17E636BB006C78DF /* CoreFoundation.framework */; };
 		90096E7217E63805006C78DF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90096E7117E63805006C78DF /* AudioToolbox.framework */; };
+		901CC0D217EC806F00E654F9 /* youtube.html in Resources */ = {isa = PBXBuildFile; fileRef = 901CC0D117EC806F00E654F9 /* youtube.html */; };
+		901CC0D417EC93C400E654F9 /* yt3.html in Resources */ = {isa = PBXBuildFile; fileRef = 901CC0D317EC93C400E654F9 /* yt3.html */; };
 		908B489B17E0AE5300607581 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 908B489A17E0AE5300607581 /* UIKit.framework */; };
 		908B489D17E0AE5300607581 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 908B489C17E0AE5300607581 /* Foundation.framework */; };
 		908B489F17E0AE5300607581 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 908B489E17E0AE5300607581 /* CoreGraphics.framework */; };
@@ -53,6 +55,8 @@
 		90096E6E17E636BB006C78DF /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		90096E7017E63805006C78DF /* WhydTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = WhydTest.entitlements; sourceTree = "<group>"; };
 		90096E7117E63805006C78DF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		901CC0D117EC806F00E654F9 /* youtube.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = youtube.html; sourceTree = "<group>"; };
+		901CC0D317EC93C400E654F9 /* yt3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = yt3.html; sourceTree = "<group>"; };
 		908B489717E0AE5300607581 /* WhydTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhydTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		908B489A17E0AE5300607581 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		908B489C17E0AE5300607581 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -175,6 +179,8 @@
 		908B48A017E0AE5300607581 /* WhydTest */ = {
 			isa = PBXGroup;
 			children = (
+				901CC0D317EC93C400E654F9 /* yt3.html */,
+				901CC0D117EC806F00E654F9 /* youtube.html */,
 				90096E7017E63805006C78DF /* WhydTest.entitlements */,
 				90096C8C17E616BC006C78DF /* Assets */,
 				908B48A917E0AE5300607581 /* AppDelegate.h */,
@@ -303,6 +309,7 @@
 			files = (
 				908B48A517E0AE5300607581 /* InfoPlist.strings in Resources */,
 				908B48AD17E0AE5300607581 /* Default.png in Resources */,
+				901CC0D217EC806F00E654F9 /* youtube.html in Resources */,
 				90096C9417E616F4006C78DF /* praise.jpg in Resources */,
 				90096C9217E616F4006C78DF /* mandy.jpg in Resources */,
 				908B48AF17E0AE5300607581 /* Default@2x.png in Resources */,
@@ -311,6 +318,7 @@
 				90096C9317E616F4006C78DF /* boiler.jpg in Resources */,
 				90096C9517E616F4006C78DF /* julian.jpg in Resources */,
 				908B48B717E0AE5300607581 /* MainStoryboard_iPad.storyboard in Resources */,
+				901CC0D417EC93C400E654F9 /* yt3.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +441,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B4234244-AA0C-4582-9D71-763C22BC8A48";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -453,7 +461,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B4234244-AA0C-4582-9D71-763C22BC8A48";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
