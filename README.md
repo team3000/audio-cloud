@@ -6,10 +6,10 @@ Is a player which aims to play:
 - Soundclound
 - Youtube
 - Others
+
 Services.
 
 ---
-
 iOS
 ====
 
@@ -25,7 +25,7 @@ Here is describe how to get the audio feed
 
 - Media Stream feed:
 ```curl -X GET http://audio-cloud.herokuapp.com/media_streams.json 
---header "Content-Type:application/json"```
+	--header "Content-Type:application/json"```
 
 - Media Stream returns:
 ```
