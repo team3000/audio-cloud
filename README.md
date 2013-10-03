@@ -47,7 +47,7 @@ Here is describe how to get the audio feed
   + url: media stream url
   + image: image url
   + audio_type_id: soundcloud = 0,
-	       	   youtube = 1
+    		       	   youtube = 1
 ```
 
 Developers
