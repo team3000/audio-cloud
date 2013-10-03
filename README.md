@@ -14,10 +14,8 @@ Services.
 iOS
 ====
 
-
 To test it, fill in **ViewController.m** your SoundClound client ID.
 `static NSString *soundcloundClientId = @"";` (line 22)
-
 
 Back end
 ========
