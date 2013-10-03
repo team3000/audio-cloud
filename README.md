@@ -10,6 +10,7 @@ Services.
 
 
 
+
 ---
 
 
@@ -51,4 +52,8 @@ Here is describe how to get the audio feed
 	       	   youtube = 1
 
 
-------------------------
+Developers
+==========
+
+- Benoit Liabastre | Backend
+- Adrien Guffens | iOS - client application
