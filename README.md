@@ -46,8 +46,9 @@ Here is describe how to get the audio feed
   + duration: media duration in seconds
   + url: media stream url
   + image: image url
-  + audio_type_id: soundcloud = 0,
-    		       	   youtube = 1
+  + audio_type_id:
+     * soundcloud = 0,
+     * youtube = 1
 ```
 
 Developers
