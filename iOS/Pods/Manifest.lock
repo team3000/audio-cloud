@@ -1,0 +1,20 @@
+PODS:
+  - AFNetworking (2.0.0-RC3):
+    - AFNetworking/Core
+  - AFNetworking/Core (2.0.0-RC3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLConnection (2.0.0-RC3)
+  - AFNetworking/Reachability (2.0.0-RC3)
+  - AFNetworking/Security (2.0.0-RC3)
+  - AFNetworking/Serialization (2.0.0-RC3)
+
+DEPENDENCIES:
+  - AFNetworking (= 2.0.0-RC3)
+
+SPEC CHECKSUMS:
+  AFNetworking: 49f64af62e643a68a3f906202f4ed51e18f3bd5c
+
+COCOAPODS: 0.25.0
