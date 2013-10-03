@@ -9,6 +9,7 @@ Is a player which aims to play:
 
 Services.
 
+
 ---
 iOS
 ====
@@ -46,7 +47,6 @@ Here is describe how to get the audio feed
   + image: image url
   + audio_type_id: soundcloud = 0,
 	       	   youtube = 1
-
 
 Developers
 ==========
