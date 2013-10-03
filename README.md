@@ -29,13 +29,13 @@ Here is describe how to get the audio feed
 - Media Stream returns:
 ```
 [
- {
-	name: "III - Dusty kid",
-	duration: 6354,
-	url: "http://api.soundcloud.com/tracks/112638475/stream?client_id=4a35610ca12c56aa757a2b3c140215a6",
-	image: "http://i1.sndcdn.com/avatars-000055293402-affc20-large.jpg?3eddc42",
-	audio_type_id: 0
- }
+	{
+		name: "III - Dusty kid",
+		duration: 6354,
+		url: "http://api.soundcloud.com/tracks/112638475/stream?client_id=4a35610ca12c56aa757a2b3c140215a6",
+		image: "http://i1.sndcdn.com/avatars-000055293402-affc20-large.jpg?3eddc42",
+		audio_type_id: 0
+ 	}
 ]
 ```
 - Media Object:
