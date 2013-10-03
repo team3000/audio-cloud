@@ -11,14 +11,11 @@ Services.
 
 iOS
 ====
-------------------------
+
 
 To test it, fill in **ViewController.m** your SoundClound client ID.
 `static NSString *soundcloundClientId = @"";` (line 22)
 
-------------------------
-
-Have fun and feel free to make it rocks ;)
 
 
 Back end
@@ -30,7 +27,7 @@ Here is describe how to get the audio feed
 `curl -X GET http://audio-cloud.herokuapp.com/media_streams.json --header "Content-Type:application/json"`
 
 - Media Stream returns:
-`
+```
 [
  {
 	name: "III - Dusty kid",
@@ -40,14 +37,14 @@ Here is describe how to get the audio feed
 	audio_type_id: 0
  }
 ]
-`
+```
 - Media Object:
-+ name: media name
-+ duration: media duration in seconds
-+ url: media stream url
-+ image: image url
-+ audio_type_id: soundcloud = 0,
-	       	 youtube = 1
+  + name: media name
+  + duration: media duration in seconds
+  + url: media stream url
+  + image: image url
+  + audio_type_id: soundcloud = 0,
+	       	   youtube = 1
 
 
 ------------------------
