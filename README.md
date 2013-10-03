@@ -8,12 +8,7 @@ Is a player which aims to play:
 - Others
 Services.
 
-
-
-
 ---
-
-
 
 iOS
 ====
@@ -55,5 +50,5 @@ Here is describe how to get the audio feed
 Developers
 ==========
 
-- Benoit Liabastre | Backend
-- Adrien Guffens | iOS - client application
+- **Benoit Liabastre** | Backend
+- **Adrien Guffens** | iOS - client application
