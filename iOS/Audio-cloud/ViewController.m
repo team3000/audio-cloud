@@ -71,7 +71,7 @@ static BOOL debug = NO;
 	
 	[client GET:@"media_streams.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		
-		UALogBasic(@"%@", responseObject);
+		UALogFull(@"%@", responseObject);
 		for (NSDictionary *trackDictionary in responseObject) {
 			Track *track = [[Track alloc] init];
 			track.name = [trackDictionary objectForKey:@"name"];
@@ -82,7 +82,7 @@ static BOOL debug = NO;
 			[_tracksList addObject:track];
 		}
 		
-		UALogBasic(@"tracksList: %@", _tracksList);
+		UALogFull(@"tracksList: %@", _tracksList);
 		
 		_currentTrack = [_tracksList firstObject];
 		_isPlaying = NO;
@@ -91,7 +91,7 @@ static BOOL debug = NO;
 		[self updateViewForTheCurrentTrack];
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		//TODO: code
-		UALogBasic(@"%@", [error description]);
+		UALogFull(@"%@", [error description]);
 	}];
 	
 	//
@@ -185,7 +185,7 @@ static BOOL debug = NO;
 - (void)updateViewForTheCurrentTrack {
 	//INFO: getting the track
 	_currentTrack = [_tracksList objectAtIndex:_position];
-	UALogBasic(@"_currentTrack: %@ at position: %d", _currentTrack, _position);
+	UALogFull(@"_currentTrack: %@ at position: %d", _currentTrack, _position);
     
 	//INFO: setting up informations ---> do it on the main thread
 	{
@@ -251,7 +251,7 @@ static BOOL debug = NO;
 				
 				NSString *durationText = [NSString stringWithFormat:@"%i:%02i:%02i", dHours, dMinutes, dSeconds];
 				
-				UALogBasic(@"durationText: %@", durationText);
+				UALogFull(@"durationText: %@", durationText);
 			}
 		}
 			break;
@@ -364,7 +364,7 @@ static BOOL debug = NO;
 			_durationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(syncScrubber) userInfo:nil repeats:YES];
         }
 		else if (_audioPlayer.status == AVPlayerStatusFailed) {
-			UALogBasic(@"");
+			UALogFull(@"");
 		}
     }
 }
@@ -413,15 +413,15 @@ static BOOL debug = NO;
 	 NSLog(@"result=\"%@\"", result) ;
 	 */
 	NSString * result = [ webView stringByEvaluatingJavaScriptFromString:@"player.playVideo();"] ;
-    UALog(@"result=\"%@\"", result) ;
+    UALogFull(@"result=\"%@\"", result) ;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-		UALog(@"%@", [webView description]);
+		UALogFull(@"%@", [webView description]);
 }
 
 - (void)embedYouTubeInWebView:(NSString*)url theWebView:(UIWebView *)aWebView {
-	UALogBasic(@"%@", [aWebView description]);
+	UALogFull(@"%@", [aWebView description]);
 	/*
 	 NSString *embedHTML  = [NSString stringWithFormat:@"\
 	 <html>\
@@ -454,7 +454,7 @@ static BOOL debug = NO;
 		
 		
 		NSString* html = [NSString stringWithFormat:htmlString, aWebView.bounds.size.width, aWebView.bounds.size.width, aWebView.bounds.size.height, _currentTrack.url];
-		UALogBasic(@"html: %@", html);
+		UALogFull(@"html: %@", html);
 		
 		aWebView.mediaPlaybackRequiresUserAction = NO;
 		[aWebView loadHTMLString:html baseURL:nil]; //baseURL:[NSURL URLWithString:_currentTrack.url]];
@@ -477,7 +477,7 @@ static BOOL debug = NO;
 		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.height, aWebView.frame.size.width, _currentTrack.url, _currentTrack.url];
 		
 		
-		UALogBasic(@"html: %@", html);
+		UALogFull(@"html: %@", html);
 		[aWebView loadHTMLString:html baseURL:nil];
 		
 		
@@ -497,7 +497,7 @@ static BOOL debug = NO;
 		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.width, aWebView.frame.size.height, aWebView.frame.size.width, aWebView.frame.size.height, _currentTrack.url];
 		
 		
-		UALogBasic(@"html: %@", html);
+		UALogFull(@"html: %@", html);
 		[aWebView loadHTMLString:html baseURL:nil];
 		
 	}
@@ -515,7 +515,7 @@ static BOOL debug = NO;
 	//INFO: setting prev sound to play
 	_position = ((_position - 1) < 0) ? ([_tracksList count] - 1) : _position - 1;
 	if (debug == YES)
-		UALogBasic(@"_position: %d", _position);
+		UALogFull(@"_position: %d", _position);
 	
 	[self updateViewForTheCurrentTrack];
 	
@@ -548,7 +548,7 @@ static BOOL debug = NO;
 	//INFO: setting next sound to play
 	_position = (_position + 1) >= [_tracksList count] ? 0 : _position + 1;
 	if (debug == YES)
-		UALog(@"_position: %d", _position);
+		UALogFull(@"_position: %d", _position);
 	
 	[self updateViewForTheCurrentTrack];
 	
@@ -581,7 +581,7 @@ static BOOL debug = NO;
 }
 
 - (IBAction)touchDragInsideSliderHandler:(id)sender {
-	UALogBasic(@"durationSlider: %f", _durationSlider.value);
+	UALogFull(@"durationSlider: %f", _durationSlider.value);
 	[_durationTimer invalidate];
 }
 

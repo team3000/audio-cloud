@@ -17,7 +17,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"http://audio-cloud.herok
     static AudioCloudAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-		UALogBasic(@"");
+		UALogFull(@"");
         _sharedClient = [[AudioCloudAPIClient alloc] initWithBaseURL:[NSURL URLWithString:AFAppDotNetAPIBaseURLString]];
         //[_sharedClient setSecurityPolicy:[AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey]];
     });
@@ -28,7 +28,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"http://audio-cloud.herok
 - (id)initWithBaseURL:(NSURL *)url {
 	self = [super initWithBaseURL:url];
 	if (self) {
-		UALogBasic(@"url: %@", [url description]);
+		UALogFull(@"url: %@", [url description]);
 	}
 	return self;
 }
@@ -37,7 +37,7 @@ static NSString * const AFAppDotNetAPIBaseURLString = @"http://audio-cloud.herok
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
 	
-	UALogBasic(@"url: %@", [request description]);
+	UALogFull(@"url: %@", [request description]);
 	
 	AFHTTPRequestOperation *requestOperation = [super HTTPRequestOperationWithRequest:request success:success failure:failure];
 	return requestOperation;
