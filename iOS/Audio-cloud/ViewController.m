@@ -11,6 +11,8 @@
 
 #import "PlayerView.h"
 
+#import "AudioCloudAPIClient.h"
+
 //INFO: AVPlayer - for audio
 #import <AVFoundation/AVPlayer.h>
 #import <AVFoundation/AVPlayerItem.h>
@@ -18,6 +20,10 @@
 
 //INFO: MPMoviePlayerController - for video
 #import <MediaPlayer/MediaPlayer.h>
+
+//
+
+#import <AFNetworking/AFImageRequestOperation.h>
 
 static NSString *soundcloundClientId = @"4a35610ca12c56aa757a2b3c140215a6";
 static BOOL debug = NO;
@@ -59,53 +65,86 @@ static BOOL debug = NO;
 	[audioSession setActive:YES error:nil];
 	
 	//INFO: setup main track list
+	_tracksList = [[NSMutableArray alloc] init];
 	
-	self.tracksList = [[NSMutableArray alloc] init];
+	AudioCloudAPIClient *client = [AudioCloudAPIClient sharedClient];
 	
-	Track *track = [[Track alloc] init];
-	track.name = @"Praise You";
-	track.duration = 100.0;
-	track.url = @"http://api.soundcloud.com/tracks/91121058/stream";
-	track.image = [UIImage imageNamed:@"praise.jpg"];
-	track.type = soundclound;
+	[client GET:@"media_streams.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		
+		UALogBasic(@"%@", responseObject);
+		for (NSDictionary *trackDictionary in responseObject) {
+			Track *track = [[Track alloc] init];
+			track.name = [trackDictionary objectForKey:@"name"];
+			track.duration = [[trackDictionary objectForKey:@"duration"] doubleValue];
+			track.url = [trackDictionary objectForKey:@"url"];
+			track.image = [trackDictionary objectForKey:@"image"];
+			track.audio_type_id = [[trackDictionary objectForKey:@"audio_type_id"] intValue];
+			[_tracksList addObject:track];
+		}
+		
+		UALogBasic(@"tracksList: %@", _tracksList);
+		
+		_currentTrack = [_tracksList firstObject];
+		_isPlaying = NO;
+		_position = 0;
+		
+		[self updateViewForTheCurrentTrack];
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		//TODO: code
+		UALogBasic(@"%@", [error description]);
+	}];
 	
-	Track *track2 = [[Track alloc] init];
-	track2.name = @"Agoria 50 min Boiler Room Mix at ADE 2012";
-	track2.duration = 100.0;
-	track2.url = @"http://www.youtube.com/embed/l5Qem9SAQZY";//http://www.youtube.com/embed/
-//	track2.url = @"l5Qem9SAQZY";//http://www.youtube.com/embed/
-	track2.image = [UIImage imageNamed:@"boiler.jpg	"];
-	track2.type = youtube;
-	
-	Track *track3 = [[Track alloc] init];
-	track3.name = @"MKWC";
-	track3.duration = 100.0;
-	track3.url = @"http://api.soundcloud.com/tracks/60716467/stream";
-	track3.image = [UIImage imageNamed:@"mandy.jpg"];
-	track3.type = soundclound;
-	
-	Track *track4 = [[Track alloc] init];
-	track4.name = @"Julian Jeweil - Don't Think (Original Mix)";
-	track4.duration = 100.0;
-	track4.url = @"http://www.youtube.com/embed/O-B46mrOtCM";
-//	track4.url = @"O-B46mrOtCM";
-	track4.image = [UIImage imageNamed:@"julian.jpg"];
-	track4.type = youtube;
+	//
 	
 	
-	[self.tracksList addObject:track];
-	[self.tracksList addObject:track2];
-	[self.tracksList addObject:track3];
-	[self.tracksList addObject:track4];
+	/*
+	 Track *track = [[Track alloc] init];
+	 track.name = @"Praise You";
+	 track.duration = 100.0;
+	 track.url = @"http://api.soundcloud.com/tracks/91121058/stream";
+	 track.image = [UIImage imageNamed:@"praise.jpg"];
+	 track.type = soundclound;
+	 
+	 Track *track2 = [[Track alloc] init];
+	 track2.name = @"Agoria 50 min Boiler Room Mix at ADE 2012";
+	 track2.duration = 100.0;
+	 track2.url = @"http://www.youtube.com/embed/l5Qem9SAQZY";//http://www.youtube.com/embed/
+	 //	track2.url = @"l5Qem9SAQZY";//http://www.youtube.com/embed/
+	 track2.image = [UIImage imageNamed:@"boiler.jpg	"];
+	 track2.type = youtube;
+	 
+	 Track *track3 = [[Track alloc] init];
+	 track3.name = @"MKWC";
+	 track3.duration = 100.0;
+	 track3.url = @"http://api.soundcloud.com/tracks/60716467/stream";
+	 track3.image = [UIImage imageNamed:@"mandy.jpg"];
+	 track3.type = soundclound;
+	 
+	 Track *track4 = [[Track alloc] init];
+	 track4.name = @"Julian Jeweil - Don't Think (Original Mix)";
+	 track4.duration = 100.0;
+	 track4.url = @"http://www.youtube.com/embed/O-B46mrOtCM";
+	 //	track4.url = @"O-B46mrOtCM";
+	 track4.image = [UIImage imageNamed:@"julian.jpg"];
+	 track4.type = youtube;
+	 
+	 
+	 [_tracksList addObject:track];
+	 [_tracksList addObject:track2];
+	 [_tracksList addObject:track3];
+	 [_tracksList addObject:track4];
+	 */
 	
-	//DEBUG:
-	NSLog(@"%s - tracksList: %@", __PRETTY_FUNCTION__, self.tracksList);
-	
-	self.currentTrack = track;
-	self.isPlaying = NO;
-	self.position = 0;
-	
-	[self updateViewForTheCurrentTrack];
+	/*
+	 //DEBUG:
+	 NSLog(@"%s - tracksList: %@", __PRETTY_FUNCTION__, _tracksList);
+	 
+	 _currentTrack = track;
+	 _isPlaying = NO;
+	 _position = 0;
+	 
+	 [self updateViewForTheCurrentTrack];
+	 */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,25 +156,25 @@ static BOOL debug = NO;
 
 - (void)syncScrubber
 {
-    CMTime playerDuration = [self playerItemDuration];//self.audioPlayer.currentItem.duration;
+    CMTime playerDuration = [self playerItemDuration];//_audioPlayer.currentItem.duration;
     if (CMTIME_IS_INVALID(playerDuration)) {
-        self.durationSlider.minimumValue = 0.0;
+        _durationSlider.minimumValue = 0.0;
         return;
     }
 	
     double duration = CMTimeGetSeconds(playerDuration);
     if (isfinite(duration) && (duration > 0)) {
-        float minValue = [self.durationSlider minimumValue];
-        float maxValue = [self.durationSlider maximumValue];
-        double time = CMTimeGetSeconds([self.audioPlayer currentTime]);
-        [self.durationSlider setValue:(maxValue - minValue) * time / duration + minValue];
+        float minValue = [_durationSlider minimumValue];
+        float maxValue = [_durationSlider maximumValue];
+        double time = CMTimeGetSeconds([_audioPlayer currentTime]);
+        [_durationSlider setValue:(maxValue - minValue) * time / duration + minValue];
     }
 }
 //
 - (CMTime)playerItemDuration {
-    AVPlayerItem *thePlayerItem = [self.audioPlayer currentItem];
+    AVPlayerItem *thePlayerItem = [_audioPlayer currentItem];
     if (thePlayerItem.status == AVPlayerItemStatusReadyToPlay) {
-        return ([self.audioPlayer.currentItem duration]);
+        return ([_audioPlayer.currentItem duration]);
     }
 	
     return(kCMTimeInvalid);
@@ -145,18 +184,18 @@ static BOOL debug = NO;
 
 - (void)updateViewForTheCurrentTrack {
 	//INFO: getting the track
-	self.currentTrack = [self.tracksList objectAtIndex:self.position];
-	NSLog(@"%s | self.currentTrack: %@ at position: %d", __PRETTY_FUNCTION__, self.currentTrack, self.position);
+	_currentTrack = [_tracksList objectAtIndex:_position];
+	UALogBasic(@"_currentTrack: %@ at position: %d", _currentTrack, _position);
     
 	//INFO: setting up informations ---> do it on the main thread
 	{
-		self.nameLabel.text = self.currentTrack.name;
+		_nameLabel.text = _currentTrack.name;
 		
-		NSString *buttonTitle = (self.isPlaying == YES ? @"Pause" : @"Play");
-		[self.playPauseButton setTitle:buttonTitle forState:UIControlStateNormal];
+		NSString *buttonTitle = (_isPlaying == YES ? @"Pause" : @"Play");
+		[_playPauseButton setTitle:buttonTitle forState:UIControlStateNormal];
 		
 		UIColor *backgroundColor = nil;
-		switch (self.currentTrack.type) {
+		switch (_currentTrack.audio_type_id) {
 			case soundclound:
 			{
 				backgroundColor = [UIColor colorWithRed:254.0 / 255.0 green:70.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
@@ -179,34 +218,40 @@ static BOOL debug = NO;
 		//INFO: update UI on main thread
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.view setBackgroundColor:backgroundColor];
-			[self.durationSlider setTintColor:backgroundColor];
-			[self.prevButton setTintColor:backgroundColor];
-			[self.nextButton setTintColor:backgroundColor];
-			[self.playPauseButton setTintColor:backgroundColor];
+			[_durationSlider setTintColor:backgroundColor];
+			[_prevButton setTintColor:backgroundColor];
+			[_nextButton setTintColor:backgroundColor];
+			[_playPauseButton setTintColor:backgroundColor];
+
 			//INFO: set image
-			[self.playerView setBackgroundColor:[UIColor colorWithPatternImage:self.currentTrack.image]];
+			NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_currentTrack.image]];
+
+			[[AFImageRequestOperation imageRequestOperationWithRequest:request success:^(UIImage *image) {
+				[_playerView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+			}] start];
 		});
+		
 	}
 }
 
 - (void)pauseCurrentTrack {
-	switch (self.currentTrack.type) {
+	switch (_currentTrack.audio_type_id) {
         case soundclound:
         {
-			[self.audioPlayer pause];
+			[_audioPlayer pause];
 			
 			//INFO: debug
 			if (debug == YES) {
-				CMTime duration = self.audioPlayer.currentItem.duration; //INFO: total time
+				CMTime duration = _audioPlayer.currentItem.duration; //INFO: total time
 				NSUInteger dTotalSeconds = CMTimeGetSeconds(duration);
 				
 				NSUInteger dHours = floor(dTotalSeconds / 3600);
 				NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
 				NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
 				
-				NSString *videoDurationText = [NSString stringWithFormat:@"%i:%02i:%02i",dHours, dMinutes, dSeconds];
+				NSString *durationText = [NSString stringWithFormat:@"%i:%02i:%02i", dHours, dMinutes, dSeconds];
 				
-				NSLog(@"%s | Description of currentTime: %@", __PRETTY_FUNCTION__, videoDurationText);
+				UALogBasic(@"durationText: %@", durationText);
 			}
 		}
 			break;
@@ -227,19 +272,19 @@ static BOOL debug = NO;
 
 - (void)playCurrentTrack {
 	
-    switch (self.currentTrack.type) {
+    switch (_currentTrack.audio_type_id) {
         case soundclound:
         {
 			//INFO: setup soundclound sound
-            NSString *urlString = [NSString stringWithFormat:@"%@?client_id=%@", self.currentTrack.url, soundcloundClientId];
+            NSString *urlString = [NSString stringWithFormat:@"%@?client_id=%@", _currentTrack.url, soundcloundClientId];
 			
 			NSURL *url = [NSURL URLWithString:urlString];
 			
-			self.audioPlayer = [AVPlayer playerWithURL:url];
-			[self.audioPlayer setAllowsExternalPlayback:YES];
+			_audioPlayer = [AVPlayer playerWithURL:url];
+			[_audioPlayer setAllowsExternalPlayback:YES];
 			
-			[self.audioPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
-			[self.audioPlayer addObserver:self forKeyPath:@"end" options:AVPlayerItemDidPlayToEndTimeNotification context:nil];
+			[_audioPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
+			[_audioPlayer addObserver:self forKeyPath:@"end" options:AVPlayerItemDidPlayToEndTimeNotification context:nil];
 			
 			[[NSNotificationCenter defaultCenter]
 			 addObserver:self
@@ -255,19 +300,19 @@ static BOOL debug = NO;
 			
 			if (YES)//INFO: Embed in WebView
 			{
-				self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.playerView.bounds.size.width, self.playerView.bounds.size.height)];
-				self.webView.delegate = self;
-				[self.webView setBackgroundColor:[UIColor clearColor]];
+				_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, _playerView.bounds.size.width, _playerView.bounds.size.height)];
+				_webView.delegate = self;
+				[_webView setBackgroundColor:[UIColor clearColor]];
 				//TODO: do a custom UIWebView class if selected way of doing
 				
-				[self.playerView addSubview:self.webView];
+				[_playerView addSubview:_webView];
 				
-				[self embedYouTubeInWebView:self.currentTrack.url theWebView:self.webView];
+				[self embedYouTubeInWebView:_currentTrack.url theWebView:_webView];
 				
 			}
 			if (NO)//INFO: MPMoviePlayerController
 			{
-				NSURL *movieURL = [NSURL URLWithString:self.currentTrack.url];
+				NSURL *movieURL = [NSURL URLWithString:_currentTrack.url];
 				_moviePlayer =  [[MPMoviePlayerController alloc]
 								 initWithContentURL:movieURL];
 				
@@ -279,19 +324,19 @@ static BOOL debug = NO;
 				_moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
 				_moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
 				_moviePlayer.shouldAutoplay = YES;
-				[self.playerView addSubview:_moviePlayer.view];
+				[_playerView addSubview:_moviePlayer.view];
 				//			[_moviePlayer setFullscreen:NO animated:YES];
 			}
 			
 			if (NO)//INFO: AVPlayer
 			{
-				NSURL *movieURL = [NSURL URLWithString:self.currentTrack.url];
+				NSURL *movieURL = [NSURL URLWithString:_currentTrack.url];
 				AVPlayer *avPlayer = [AVPlayer playerWithURL:movieURL];
 				
 				AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:avPlayer];
 				avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-				layer.frame = CGRectMake(0, 0, self.playerView.bounds.size.width, self.playerView.bounds.size.height);
-				[self.view.layer addSublayer:layer];
+				layer.frame = CGRectMake(0, 0, _playerView.bounds.size.width, _playerView.bounds.size.height);
+				[_view.layer addSublayer:layer];
 				
 				[avPlayer play];
 			}
@@ -313,21 +358,20 @@ static BOOL debug = NO;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"status"]) {
-        if (self.audioPlayer.status == AVPlayerStatusReadyToPlay) {
-            [self.audioPlayer play];
+        if (_audioPlayer.status == AVPlayerStatusReadyToPlay) {
+            [_audioPlayer play];
 			
-			self.durationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(syncScrubber) userInfo:nil repeats:YES];
+			_durationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(syncScrubber) userInfo:nil repeats:YES];
         }
-		else if (self.audioPlayer.status == AVPlayerStatusFailed) {
-			if (debug == YES)
-				NSLog(@"%s - ERROR", __PRETTY_FUNCTION__);
+		else if (_audioPlayer.status == AVPlayerStatusFailed) {
+			UALogBasic(@"");
 		}
     }
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
 	[self nextHandler:nil];
-	//[self.audioPlayer seekToTime:kCMTimeZero];
+	//[_audioPlayer seekToTime:kCMTimeZero];
 }
 
 
@@ -349,8 +393,7 @@ static BOOL debug = NO;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 	//	if (debug == YES)
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
-	
+	UALogFull(@"");
 	
 	/*
 	 // add function to page:
@@ -370,16 +413,15 @@ static BOOL debug = NO;
 	 NSLog(@"result=\"%@\"", result) ;
 	 */
 	NSString * result = [ webView stringByEvaluatingJavaScriptFromString:@"player.playVideo();"] ;
-    NSLog(@"result=\"%@\"", result) ;
+    UALog(@"result=\"%@\"", result) ;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-	if (debug == YES)
-		NSLog(@"%s %@", __PRETTY_FUNCTION__, [webView description]);
+		UALog(@"%@", [webView description]);
 }
 
 - (void)embedYouTubeInWebView:(NSString*)url theWebView:(UIWebView *)aWebView {
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, [aWebView description]);
+	UALogBasic(@"%@", [aWebView description]);
 	/*
 	 NSString *embedHTML  = [NSString stringWithFormat:@"\
 	 <html>\
@@ -411,11 +453,11 @@ static BOOL debug = NO;
 		</body></html>";//enablejsapi=1&playerapiid=ytplayer
 		
 		
-		NSString* html = [NSString stringWithFormat:htmlString, aWebView.bounds.size.width, aWebView.bounds.size.width, aWebView.bounds.size.height, self.currentTrack.url];
-		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+		NSString* html = [NSString stringWithFormat:htmlString, aWebView.bounds.size.width, aWebView.bounds.size.width, aWebView.bounds.size.height, _currentTrack.url];
+		UALogBasic(@"html: %@", html);
 		
 		aWebView.mediaPlaybackRequiresUserAction = NO;
-		[aWebView loadHTMLString:html baseURL:nil]; //baseURL:[NSURL URLWithString:self.currentTrack.url]];
+		[aWebView loadHTMLString:html baseURL:nil]; //baseURL:[NSURL URLWithString:_currentTrack.url]];
 		if (NO) {
 			NSString *tmpDir = NSTemporaryDirectory();
 			NSString *tmpFile = [tmpDir
@@ -432,18 +474,18 @@ static BOOL debug = NO;
 		NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"youtube" ofType:@"html"];
 		NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
 		
-		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.height, aWebView.frame.size.width, self.currentTrack.url, self.currentTrack.url];
+		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.height, aWebView.frame.size.width, _currentTrack.url, _currentTrack.url];
 		
 		
-		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+		UALogBasic(@"html: %@", html);
 		[aWebView loadHTMLString:html baseURL:nil];
 		
 		
 		/*
-		NSData *htmlData = [NSData dataWithContentsOfFile:html];
-		
-		
-		[aWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
+		 NSData *htmlData = [NSData dataWithContentsOfFile:html];
+		 
+		 
+		 [aWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
 		 */
 	}
 	
@@ -452,10 +494,10 @@ static BOOL debug = NO;
 		NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"yt3" ofType:@"html"];
 		NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
 		
-		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.width, aWebView.frame.size.height, aWebView.frame.size.width, aWebView.frame.size.height, self.currentTrack.url];
+		NSString* html = [NSString stringWithFormat:htmlString, aWebView.frame.size.width, aWebView.frame.size.height, aWebView.frame.size.width, aWebView.frame.size.height, _currentTrack.url];
 		
 		
-		NSLog(@"%s | html: %@", __PRETTY_FUNCTION__, html);
+		UALogBasic(@"html: %@", html);
 		[aWebView loadHTMLString:html baseURL:nil];
 		
 	}
@@ -471,21 +513,21 @@ static BOOL debug = NO;
 	[self stop];
 	
 	//INFO: setting prev sound to play
-	self.position = ((self.position - 1) < 0) ? ([self.tracksList count] - 1) : self.position - 1;
+	_position = ((_position - 1) < 0) ? ([_tracksList count] - 1) : _position - 1;
 	if (debug == YES)
-		NSLog(@"%s | self.position: %d", __PRETTY_FUNCTION__, self.position);
+		UALogBasic(@"_position: %d", _position);
 	
 	[self updateViewForTheCurrentTrack];
 	
-	if (self.isPlaying == YES) {
+	if (_isPlaying == YES) {
 		[self playCurrentTrack];
 	}
 	
 }
 
 - (IBAction)playPauseHandler:(id)sender {
-	if (self.isPlaying == NO) {
-		self.isPlaying = YES;
+	if (_isPlaying == NO) {
+		_isPlaying = YES;
 		
 		[self updateViewForTheCurrentTrack];
 		[self playCurrentTrack];
@@ -495,7 +537,7 @@ static BOOL debug = NO;
 		//TODO: pause [OK]
 		
 		[self pauseCurrentTrack];
-		self.isPlaying = NO;
+		_isPlaying = NO;
 		[self updateViewForTheCurrentTrack];
 	}
 }
@@ -504,13 +546,13 @@ static BOOL debug = NO;
 	[self stop];
 	
 	//INFO: setting next sound to play
-	self.position = (self.position + 1) >= [self.tracksList count] ? 0 : self.position + 1;
+	_position = (_position + 1) >= [_tracksList count] ? 0 : _position + 1;
 	if (debug == YES)
-		NSLog(@"%s | self.position: %d", __PRETTY_FUNCTION__, self.position);
+		UALog(@"_position: %d", _position);
 	
 	[self updateViewForTheCurrentTrack];
 	
-	if (self.isPlaying == YES) {
+	if (_isPlaying == YES) {
 		[self playCurrentTrack];
 	}
 	
@@ -520,36 +562,35 @@ static BOOL debug = NO;
 	//INFO: to test latter ->
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.durationTimer invalidate];
-		self.durationTimer = nil;
-		self.durationSlider.value = 0;
+		[_durationTimer invalidate];
+		_durationTimer = nil;
+		_durationSlider.value = 0;
 	});
 	
-	if (self.currentTrack.type == soundclound) {
-		[self.audioPlayer pause];
+	if (_currentTrack.audio_type_id == soundclound) {
+		[_audioPlayer pause];
 	}
-	else if (self.currentTrack.type == youtube) {
-		[self.webView removeFromSuperview];
+	else if (_currentTrack.audio_type_id == youtube) {
+		[_webView removeFromSuperview];
 	}
 	
 }
 
 - (IBAction)valueSliderChangedHandler:(id)sender {
-	[self.durationTimer invalidate];
+	[_durationTimer invalidate];
 }
 
 - (IBAction)touchDragInsideSliderHandler:(id)sender {
-	if (debug == YES)
-		NSLog(@"%s - durationSlider: %f", __PRETTY_FUNCTION__, self.durationSlider.value);
-	[self.durationTimer invalidate];
+	UALogBasic(@"durationSlider: %f", _durationSlider.value);
+	[_durationTimer invalidate];
 }
 
 - (IBAction)touchUpInsideSliderHandler:(id)sender {
-	double trackDuration = CMTimeGetSeconds([self.audioPlayer currentItem].duration);
-	CMTime duration = CMTimeMakeWithSeconds(self.durationSlider.value * trackDuration, 1);
-	[self.audioPlayer seekToTime:duration];
+	double trackDuration = CMTimeGetSeconds([_audioPlayer currentItem].duration);
+	CMTime duration = CMTimeMakeWithSeconds(_durationSlider.value * trackDuration, 1);
+	[_audioPlayer seekToTime:duration];
 	
-	self.durationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(syncScrubber) userInfo:nil repeats:YES];
+	_durationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(syncScrubber) userInfo:nil repeats:YES];
 }
 
 @end

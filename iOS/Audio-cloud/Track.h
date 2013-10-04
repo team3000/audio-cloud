@@ -20,8 +20,8 @@ enum track_type {
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, assign)double duration;//INFO: in seconds
 @property (nonatomic, strong)NSString *url;
-@property (nonatomic, assign)int type;//INFO: bad type but will work
+@property (nonatomic, assign)int audio_type_id;//INFO: bad type but will work
 @property (nonatomic, assign)int position;
-@property (nonatomic, strong)UIImage *image;
+@property (nonatomic, strong)NSString *image;
 
 @end

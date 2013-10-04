@@ -111,6 +111,7 @@
 				9011361517FDD4D40021B1FF /* Audio-cloud */,
 				9011363717FDD4D40021B1FF /* Audio-cloudTests */,
 				9011360E17FDD4D40021B1FF /* Frameworks */,
+				9011361617FDD4D40021B1FF /* Supporting Files */,
 				9011360D17FDD4D40021B1FF /* Products */,
 				2B9864066B8D47E7A7C5C1CA /* Pods.xcconfig */,
 			);
@@ -140,22 +141,16 @@
 		9011361517FDD4D40021B1FF /* Audio-cloud */ = {
 			isa = PBXGroup;
 			children = (
-				9011364F17FDE7CB0021B1FF /* youtube.html */,
-				9011365017FDE7CB0021B1FF /* yt3.html */,
+				9011366317FDF7FF0021B1FF /* Ressources */,
 				9011364B17FDE7CB0021B1FF /* AppDelegate.h */,
 				9011364C17FDE7CB0021B1FF /* AppDelegate.m */,
 				9011362117FDD4D40021B1FF /* Main_iPhone.storyboard */,
 				9011362417FDD4D40021B1FF /* Main_iPad.storyboard */,
-				9011364D17FDE7CB0021B1FF /* ViewController.h */,
-				9011364E17FDE7CB0021B1FF /* ViewController.m */,
-				9011362A17FDD4D40021B1FF /* Images.xcassets */,
-				9011361617FDD4D40021B1FF /* Supporting Files */,
+				9011366217FDF7EB0021B1FF /* View Controller */,
 				9011364717FDD6F80021B1FF /* AudioCloudAPIClient.h */,
 				9011364817FDD6F80021B1FF /* AudioCloudAPIClient.m */,
-				9011365D17FDE8BA0021B1FF /* Track.h */,
-				9011365E17FDE8BA0021B1FF /* Track.m */,
-				9011365917FDE88E0021B1FF /* PlayerView.h */,
-				9011365A17FDE88E0021B1FF /* PlayerView.m */,
+				9011366117FDF7DF0021B1FF /* Models */,
+				9011366417FDF82D0021B1FF /* Controls */,
 			);
 			path = "Audio-cloud";
 			sourceTree = "<group>";
@@ -169,6 +164,7 @@
 				9011361D17FDD4D40021B1FF /* Audio-cloud-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			path = "Audio-cloud";
 			sourceTree = "<group>";
 		};
 		9011363717FDD4D40021B1FF /* Audio-cloudTests */ = {
@@ -187,6 +183,43 @@
 				9011363A17FDD4D40021B1FF /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9011366117FDF7DF0021B1FF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9011365D17FDE8BA0021B1FF /* Track.h */,
+				9011365E17FDE8BA0021B1FF /* Track.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		9011366217FDF7EB0021B1FF /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9011364D17FDE7CB0021B1FF /* ViewController.h */,
+				9011364E17FDE7CB0021B1FF /* ViewController.m */,
+			);
+			name = "View Controller";
+			sourceTree = "<group>";
+		};
+		9011366317FDF7FF0021B1FF /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				9011362A17FDD4D40021B1FF /* Images.xcassets */,
+				9011364F17FDE7CB0021B1FF /* youtube.html */,
+				9011365017FDE7CB0021B1FF /* yt3.html */,
+			);
+			name = Ressources;
+			sourceTree = "<group>";
+		};
+		9011366417FDF82D0021B1FF /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				9011365917FDE88E0021B1FF /* PlayerView.h */,
+				9011365A17FDE88E0021B1FF /* PlayerView.m */,
+			);
+			name = Controls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

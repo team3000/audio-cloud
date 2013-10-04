@@ -10,11 +10,17 @@ PODS:
   - AFNetworking/Reachability (2.0.0-RC3)
   - AFNetworking/Security (2.0.0-RC3)
   - AFNetworking/Serialization (2.0.0-RC3)
+  - FlatUIKit (1.2)
+  - UALogger (0.2.3)
 
 DEPENDENCIES:
   - AFNetworking (= 2.0.0-RC3)
+  - FlatUIKit
+  - UALogger (~> 0.2.3)
 
 SPEC CHECKSUMS:
   AFNetworking: 49f64af62e643a68a3f906202f4ed51e18f3bd5c
+  FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
+  UALogger: abe2af53cf3a72fd8ed3625ee331c546c4c7bde9
 
 COCOAPODS: 0.25.0
