@@ -21,7 +21,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JaN-8P-WH0">
-                                        <rect key="frame" x="18" y="63" width="284" height="29"/>
+                                        <rect key="frame" x="18" y="63" width="284" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="touchDragInsideSliderHandler:" destination="dp3-Fl-yae" eventType="touchDragInside" id="paV-Kz-J3R"/>
