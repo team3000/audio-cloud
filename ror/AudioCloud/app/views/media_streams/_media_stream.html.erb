@@ -1,0 +1,26 @@
+<div data-track-container>
+
+    <div class="span3">
+        <%= media_stream.name %>
+    </div>
+
+    <div class="span3">
+        <img src="<%= media_stream.image_url %>" />
+    </div>
+
+    <a data-audio-track data-behavior="play_audio_track" data-id="<%= media_stream.id %>" data-title="<%= media_stream.name %>" data-url="<%= media_stream.url %>" href="#">
+        <i class="icon-play"></i>
+    </a>
+
+    <div class="span3">
+        <%= media_stream.detail %>
+    </div>
+
+    <div class="span3">
+        <%= link_to 'Show', media_stream %>
+        <%= link_to 'Edit', edit_media_stream_path(media_stream) %>
+        <%= link_to 'Destroy', media_stream, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+</div>
+
+<hr>

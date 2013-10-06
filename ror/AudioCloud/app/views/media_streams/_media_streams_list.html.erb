@@ -1,0 +1,23 @@
+<div data-music-container id="media_streams_list">
+
+	<a data-behavior="player_switch_to_prev_track" href="#">PREV</a>
+	|
+	<a data-behavior="play_first_or_existing_track_on_page" href="#">PLAY</a>
+	|
+	<a data-behavior="player_switch_to_next_track" href="#">NEXT</a>
+
+
+
+
+	<hr>
+
+	<div data-music-container>
+		<div data-track-container>
+			<% @media_streams.each do |media_stream| %>
+			<%= render "media_streams/media_stream", media_stream: media_stream %>
+			<% end %>
+		</div>
+	</div>
+
+</div>
+

@@ -1,0 +1,53 @@
+<%= form_for(@media_stream) do |f| %>
+  <% if @media_stream.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@media_stream.errors.count, "error") %> prohibited this media_stream from being saved:</h2>
+
+      <ul>
+      <% @media_stream.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :detail %><br>
+    <%= f.text_field :detail %>
+  </div>
+  <div class="field">
+    <%= f.label :permalink_url %><br>
+    <%= f.text_field :permalink_url %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br>
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :download_url %><br>
+    <%= f.text_field :download_url %>
+  </div>
+  <div class="field">
+    <%= f.label :image_url %><br>
+    <%= f.text_field :image_url %>
+  </div>
+  <div class="field">
+    <%= f.label :media_type %><br>
+    <%= f.number_field :media_type %>
+  </div>
+  <div class="field">
+    <%= f.label :duration %><br>
+    <%= f.number_field :duration %>
+  </div>
+  <div class="field">
+    <%= f.label :likes %><br>
+    <%= f.number_field :likes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

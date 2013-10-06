@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  detail: MyString
+  permalink_url: MyString
+  url: MyString
+  download_url: MyString
+  image_url: MyString
+  media_type: 1
+  duration: 1
+  likes: 1
+
+two:
+  name: MyString
+  detail: MyString
+  permalink_url: MyString
+  url: MyString
+  download_url: MyString
+  image_url: MyString
+  media_type: 1
+  duration: 1
+  likes: 1

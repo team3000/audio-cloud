@@ -1,0 +1,13 @@
+rails new <app_name>
+cd <app_name>
+
+# create the main model of my app (e.g. MediaStream or Sticker)
+rails g scaffold MyModels arg1:type1 arg2:type2
+
+# rm the default page that we won't need (we use StaticPages instead)
+rm public/index.html
+# edit config/routes.rb to root where we want instead of default:
+root 'my_model#index'
+
+# precompile assets
+ bundle exec rake assets:precompile

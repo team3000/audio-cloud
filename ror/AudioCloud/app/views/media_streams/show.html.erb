@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @media_stream.name %>
+</p>
+
+<p>
+  <strong>Detail:</strong>
+  <%= @media_stream.detail %>
+</p>
+
+<p>
+  <strong>Permalink url:</strong>
+  <%= @media_stream.permalink_url %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @media_stream.url %>
+</p>
+
+<p>
+  <strong>Download url:</strong>
+  <%= @media_stream.download_url %>
+</p>
+
+<p>
+  <strong>Image url:</strong>
+  <%= @media_stream.image_url %>
+</p>
+
+<p>
+  <strong>Media type:</strong>
+  <%= @media_stream.media_type %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @media_stream.duration %>
+</p>
+
+<p>
+  <strong>Likes:</strong>
+  <%= @media_stream.likes %>
+</p>
+
+<%= link_to 'Edit', edit_media_stream_path(@media_stream) %> |
+<%= link_to 'Back', media_streams_path %>

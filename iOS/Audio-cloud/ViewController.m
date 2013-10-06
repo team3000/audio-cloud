@@ -80,6 +80,7 @@ static BOOL debug = NO;
 			track.image = [trackDictionary objectForKey:@"image"];
 			track.audio_type_id = [[trackDictionary objectForKey:@"audio_type_id"] intValue];
 			[_tracksList addObject:track];
+
 		}
 		
 		UALogFull(@"tracksList: %@", _tracksList);

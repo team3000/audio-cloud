@@ -1,0 +1,26 @@
+<div class="container">
+  <table>
+    <tr>
+      <div class="demo-headline">
+        <h1 class="demo-logo">
+          Audio cloud
+          <small>Play all</small>
+        </h1>
+      </div>
+    </tr>
+  </table>
+
+  <br>
+
+  <%= render 'media_streams/media_streams_list' %>
+
+  <br>
+
+
+  <div class="row demo-row">
+    <div class="col-md-3">
+      <%= link_to 'New Media stream', new_media_stream_path, :class => 'btn btn-large btn-block btn-success' %>
+
+    </div>
+
+  </div>
